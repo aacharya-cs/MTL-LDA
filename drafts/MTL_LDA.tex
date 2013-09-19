@@ -1,0 +1,78 @@
+\documentclass[10pts,fleqn]{article}
+
+\usepackage{url}
+\usepackage{mydefs}
+\usepackage{notes}
+\usepackage{algorithm,algorithmic}
+
+\newenvironment{packeditemize}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{-2pt}
+  \setlength{\parsep}{-2pt}
+}{\end{itemize}}
+
+\newenvironment{packeddescription}{
+\begin{description}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{description}}
+
+\newenvironment{packedenumerate}{
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+
+\title{Multiple Task Learning for Very Many Tasks in Very Many Dimensions}
+
+\begin {document}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+
+
+%=============================================================================================================
+\section{Introduction}
+
+{\bf Goal:} Perform multitask learing for millions of tasks in very high dimensions.
+
+%\begin{packeditemize}
+\begin{itemize}
+	\item consider a matrix $M \in \mathbb{R}^{TxD}$ with the rows as $T$ task and the columns are $D$ features or dimensions. Now the $T$ is really big and so we need to cluster the tasks. Also, the dimension $D$ is very large and we need to cluster the dimensions too. So it seems like we are clustering on the rows and columns of matrix $M$. Hence, in this case we treat the multitask learning as a co-clustering problem.
+	\item an alternate way to achieve the above is by viewing the problem as a matrix decomposition problem where we have $M = ABC$ and $A \in \mathbb{R}^{TxT'}$, $B \in \mathbb{R}^{T'xD'}$ and $C \in \mathbb{R}^{D'xD}$. Consider $T'$ as the clustered super tasks and the $D'$ as the clustered super-words. The matrix $B$ that relates the task-clusters with the word-clusters is infact our relationship matrix here. In case of large number of dimensions as well as large number of features it is infeasible to work with the resulting matrix and the hope here is that a a reduced dimensional or low rank representation on both the rows and columns will make the learning process myuch more tractable.
+	\item we assume the super-task and the super-word structure to be latent variables and model them using LDA. Both the super-task and super-word can learned alternately and also be used to update each other. Also, note that in the above the clustering on row-space is supervised whereas the clustering on the column space is unsupervised.
+\end{itemize}
+%\end{packeditemize}
+
+
+
+%=============================================================================================================
+\section{Generative Model}
+
+\begin{enumerate}
+	\item row-clustering
+	\begin{enumerate}
+		\item each task is drawn from a distribution of super-doc
+		\item each super-doc is drawn from a distribution of docs
+	\end{enumerate}
+	\item col-clustering
+	\begin{enumerate}
+		\item each doc is drawn from a distribution of super-words (topics)
+		\item each super-word (topic) is drawn from a distribution of words
+	\end{enumerate}
+\end{enumerate}
+NOTE: the above two apparently disconnected clustering steps are linked by step 1(b) and 2(a).
+
+
+%=============================================================================================================
+\bibliographystyle{plain}
+\bibliography{refs.bib}
+
+\end {document} 
