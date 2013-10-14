@@ -70,9 +70,51 @@
 \end{enumerate}
 NOTE: the above two apparently disconnected clustering steps are linked by step 1(b) and 2(a).
 
+In any large scale application, the number of data points as well as the feature
+dimension are both extremely large. For example, we can consider a corpus of
+text documents where the number of documents is huge and the size of the vocabulary is
+of the order of several tens of thousands. Additionally, the documents might belong
+to some groups. Such groups can be discovered in a completely unsupervised fashion
+or there might also be partial supervision available for some of these groups.
 
+We start with a document by words matrix. The idea here is to decompose this matrix as a product of
+three matrices -- documents by tasks, tasks by topics and topics by words. In the
+first matrix, the documents are categorized into some tasks or groups.
+Documents in each task are assumed to have a distinctive
+distribution in the topic space, as dictated by the second matrix.
+The third matrix denotes the structure of the topics.
+In a typical topic model framework, the document by words matrix is
+decomposed as a product of two matrices -- document by topics and topic by words.
+Here, we go one extra level up and try to discover the document groups
+either in a completely unsupervised way or using limited amount of supervision.
+
+One could solve the problem of document clustering into multiple
+tasks and the topic modeling in a separate framework. Since topic models project documents
+onto topic space, one could work with the topic space representation of the documents
+and group documents using the topic space assignment
+in a post-processing step. However, as exemplified in a recent research
+\cite{xixi13}, incorporating information about documents' latent
+groups further improves the performance of topic models and the assignment
+of the documents into latent groups can be bettered from this
+revised topic model.
+Our objective is to follow this research direction and propose methods for
+large scale distributed inference techniques and extend the models to non-parametric
+setting where the number of groups can be inferred from the data itself.
+The online inference techniques used in topic model are essentially
+stochastic gradient descent applied to variational EM framework
+\cite{hobb10,wapb11}. For large scale applications, online variational
+inference has been shown to be successful. We, therefore, plan to use such
+framework for large scale non-parametric multitask learning.
+
+Much of the large scale data available in industry reside in different
+machines and necessitates distributed processing instead
+of aggregating all the data in the same place. One particular scenario
+is when the features of the data lie in different physical locations. For example, the data for
+Yahoo! mail and Yahoo! news for the same user reside in different
+cluster machines. We plan to propose techniques for distributed online variational inference
+using alternating direction method of multipliers (ADMM)\cite{bopc11}.
 %=============================================================================================================
 \bibliographystyle{plain}
-\bibliography{refs.bib}
+\bibliography{refs,latestbib}
 
 \end {document} 
